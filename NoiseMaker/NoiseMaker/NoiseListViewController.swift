@@ -68,6 +68,12 @@ class NoiseListViewController: UIViewController, UITableViewDataSource, UITableV
         let nextViewController = segue.destinationViewController as! NewNoiseViewController
         nextViewController.previousNoiseListViewController = self
     }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            print("this worked!!")
+        }
+    }
  
 
 }
