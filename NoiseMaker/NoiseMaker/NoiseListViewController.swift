@@ -81,8 +81,10 @@ class NoiseListViewController: UIViewController, UITableViewDataSource, UITableV
             let noiseToDelete = noiseList[indexPath.row]
             let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
             context.deleteObject(noiseToDelete)
+            do {
+                try context.save()
+            }catch{}
             self.fechNoises()
-            
         }
     }
 }
