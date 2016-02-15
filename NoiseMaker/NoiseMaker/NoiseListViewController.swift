@@ -29,13 +29,16 @@ class NoiseListViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewWillAppear(animated)
         
         //begin code
+        self.fechNoises()
+    }
+    
+    func fechNoises() {
         let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let request = NSFetchRequest(entityName: "Noise")
         do {
             self.noiseList = try context.executeFetchRequest(request) as! [Noise]
         }catch {}
         self.noiseListTableView.reloadData()
-        
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,12 +72,20 @@ class NoiseListViewController: UIViewController, UITableViewDataSource, UITableV
         nextViewController.previousNoiseListViewController = self
     }
     
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            print("this worked!!")
+            let noiseToDelete = noiseList[indexPath.row]
+            let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+            context.deleteObject(noiseToDelete)
+            self.fechNoises()
+            
         }
     }
- 
-
 }
+
+
 
